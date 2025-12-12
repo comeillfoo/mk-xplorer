@@ -1,6 +1,3 @@
-*
-!README.md
-!.gitignore
-!LICENSE
-!*.py
-!*.sh
+.venv
+__pycache__
+
