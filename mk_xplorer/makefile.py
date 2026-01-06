@@ -1,7 +1,10 @@
 #!/usr/bin/env python3
 import re
 from dataclasses import dataclass
-from context import *
+
+
+from mk_xplorer.context import *
+
 
 @dataclass
 class Filenames:
@@ -40,7 +43,8 @@ class Rule:
 INLINE_VARIABLE_STX = re.compile(r'(?P<varname>\w+) *(?P<op>(\?|:{1,3}|\+|\!)?=) *(?P<varvalue>.*)')
 DIRECTIVE_VARIABLE_STX = re.compile(r'define +(?P<varname>\w+) *(?P<op>(\?|:{1,3}|\+|\!)?=)?')
 
-class MakefileParser():
+
+class Makefile():
 
     def __init__(self):
         self.parser_ctx: ParserContext = BaseParserContext()
