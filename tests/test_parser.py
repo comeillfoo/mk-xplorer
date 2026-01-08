@@ -4,7 +4,7 @@ import unittest
 
 from mk_xplorer.splitting_lines import eliminate_splitting_lines
 from mk_xplorer.comments import eliminate_comments
-from mk_xplorer.makefile import Makefile
+from mk_xplorer.parser import MakefileParser
 
 
 class TestSplittingLines(unittest.TestCase):
@@ -35,10 +35,10 @@ class TestCommentsIgnore(unittest.TestCase):
 
 class TestMakefile(unittest.TestCase):
     def test_simplest_explicit_rule(self):
-        mk = Makefile()
-        mk.parse('all: help; @echo "Hello, World!"\n')
+        mk = MakefileParser('all: help; @echo "Hello, World!"\n').accept()
+        self.assertIsNotNone(mk)
         self.assertTrue(mk.rules[0].is_default)
         self.assertEqual(['all'], mk.rules[0].targets.filenames)
         self.assertEqual(['help'], mk.rules[0].prerequisites.filenames)
-        self.assertFalse(mk.rules[0].is_grouped_or_independent)
+        self.assertFalse(mk.rules[0].is_grouped)
         self.assertEqual('@echo "Hello, World!"', mk.rules[0].recipe)
