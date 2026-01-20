@@ -17,6 +17,7 @@ TARGETS_PREREQS_RGX = f'({FILENAME_RGX} )*({FILENAME_RGX})'
 RECIPE_RGX = re.compile(f'(?P<targets>{TARGETS_PREREQS_RGX})(?P<grouped>\&)?: *(?P<prereqs>{TARGETS_PREREQS_RGX}) *(?P<recipe>;.*)?')
 INLINE_VAR_RGX = re.compile(r'(?P<varname>\w+) *(?P<op>(\?|:{1,3}|\+|\!)?=) *(?P<varvalue>.*)')
 DIRECTIVE_VAR_RGX = re.compile(r'define +(?P<varname>\w+) *(?P<op>(\?|:{1,3}|\+|\!)?=)?')
+SPLITTING_LONG_LINE_RGX = r'([^\\\n]|\\[$#%\\tr])*\\$'
 
 
 class ParsingContext(ABC):
