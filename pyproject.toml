@@ -1,0 +1,26 @@
+[build-system]
+requires = ['setuptools >= 77.0.3']
+build-backend = 'setuptools.build_meta'
+
+[project]
+name = 'mk_explorer'
+description = 'Library for parsing Makefiles'
+readme = 'README.md'
+requires-python = '>=3.13'
+classifiers = [
+    'Programming Language :: Python :: 3',
+    'Operating System :: OS Independent',
+]
+dependencies = [
+    'ply'
+]
+license = 'MIT'
+license-files = ['LICEN[CS]E*']
+dynamic = ['version']
+
+[project.scripts]
+mk-print-data-base = 'mk_explorer:print_data_base'
+mk-just-print = 'mk_explorer:just_print'
+
+[tool.setuptools.dynamic]
+version = {attr = 'mk_explorer.__version__'}

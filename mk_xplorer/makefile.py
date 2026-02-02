@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+from enum import StrEnum
 from dataclasses import dataclass, field
 
 
@@ -40,6 +41,11 @@ class Rule:
             + ' ' + ('&:' if self.is_grouped else ':') \
             + ' ' + str(self.prerequisites) + '\n' \
             + '\n'.join(map(lambda s: RECIPE_PREFIX + s, self.recipe))
+
+
+class SpecialTargets(StrEnum):
+    POSIX = '.POSIX'
+    PHONY = '.PHONY'
 
 
 class Makefile:
