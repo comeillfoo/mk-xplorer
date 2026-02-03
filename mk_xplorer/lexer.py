@@ -15,7 +15,10 @@ tokens = (
     'LPAREN',
     'RPAREN',
     'WORD',
+    'NEWLINE',
     'ESCNLINE',
+    'TAB', # may be redefined at runtime by .RECIPEPREFIX
+    'SPACE',
 )
 
 t_INCLUDE = r'include'
@@ -30,7 +33,12 @@ t_DOLLAR = r'\$'
 t_LPAREN = r'\('
 t_RPAREN = r'\)'
 t_WORD = r'\w+'
+t_NEWLINE = r'\n'
 t_ESCNLINE = r'\\\n'
+t_TAB = r'\t'
+t_SPACE = r'[ ]'
+
+t_ignore = '\r\f\v'
 
 
 def t_COMMENT(t):
