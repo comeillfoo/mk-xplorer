@@ -31,11 +31,26 @@ class TestTokenizer(unittest.TestCase):
         with self.subTest('no other tokens at the same line'):
             actual = list(self._tokenize('# lorem ipsum\ndefine'))
             self.assertEqual(2, len(actual))
-            self.assertEqual('NEWLINE', actual[0].type)
+            self.assertEqual('NEWLINES', actual[0].type)
             self.assertEqual('DEFINE', actual[1].type)
 
         with self.subTest('other tokens prepended comment'):
             actual = list(self._tokenize('include # lorem ipsum'))
             self.assertEqual(2, len(actual))
             self.assertEqual('INCLUDE', actual[0].type)
-            self.assertEqual('SPACE', actual[1].type)
+            self.assertEqual('SPACES', actual[1].type)
+
+
+    def test_tokenizing_splitted_long_lines(self):
+        with self.subTest('just split'):
+            actual = list(self._tokenize('\\\n'))
+            self.assertEqual(1, len(actual))
+            self.assertEqual('ESCSEQ', actual[0].type)
+            self.assertEqual('\\\n', actual[0].value)
+
+        with self.subTest('extra backslash'):
+            actual = list(self._tokenize('\\\\\n'))
+            self.assertEqual(2, len(actual))
+            self.assertEqual('ESCSEQ', actual[0].type)
+            self.assertEqual('\\\\', actual[0].value)
+            self.assertEqual('NEWLINES', actual[1].type)
