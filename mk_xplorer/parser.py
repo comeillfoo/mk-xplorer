@@ -6,18 +6,16 @@ import io
 from typing import Self
 
 
+from mk_xplorer.lexer import MakefileLexer
 from mk_xplorer.makefile import SpecialTargets, Makefile
 
 
 class MakefileParser:
-    BACKSLASH_NEWLINE_RGX = re.compile(r'([^\\\n]|\\u[A-Fa-f0-9]{4}|\\U[A-Fa-f0-9]{8}|\\.)*\\$')
-    COMMENT_RGX = re.compile(r'^([^\\\n]*)(\#.*)$')
-
-
     def __init__(self, stream: io.TextIOBase):
         self._stream = stream
         self._targets = {}
         self._in_recipe = False
+        self._recipeprefix = '\t'
 
 
     @staticmethod
@@ -45,21 +43,14 @@ class MakefileParser:
         return lline.getvalue()
 
 
-    def remove_comment(self, line: str) -> str:
-        if self._in_recipe:
-            return line
-
-        _match = self.COMMENT_RGX.match(line)
-        if _match is None:
-            return line
-        return _match.group(1)
-
-
     def parse(self) -> Makefile:
-        while self._stream.readable():
-            lline = self.remove_comment(self.read_full_logical_line())
+        while True:
+            lline = self._stream.readline()
             if not lline:
-                continue
+                break
+            lexer = MakefileLexer()
+            lexer.build()
+            tokens = lexer.tokenize(lline)
 
 
     @classmethod
